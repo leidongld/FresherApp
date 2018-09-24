@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.MainActivity"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"/>
+
+    <!--下方Bottom Bar-->
+    <RadioGroup
+        android:id="@+id/rg_button_tag"
+        android:padding="1dp"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:orientation="horizontal"
+        android:weightSum="4"
+        android:gravity="center_vertical">
+        <RadioButton
+            android:id="@+id/rbt_home"
+            android:text="首页"
+            android:drawableTop="@drawable/rbt_home_drawable_selector"
+            style="@style/bottom_tag_style"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/rbt_collection"
+            android:text="精选"
+            android:drawableTop="@drawable/rbt_collection_drawable_selector"
+            style="@style/bottom_tag_style"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/rbt_shopping_cart"
+            android:text="购物车"
+            android:drawableTop="@drawable/rbt_trolley_drawable_selector"
+            style="@style/bottom_tag_style"
+            android:layout_weight="1"/>
+        <RadioButton
+            android:id="@+id/rbt_me"
+            android:text="我的"
+            android:drawableTop="@drawable/rbt_me_drawable_selector"
+            style="@style/bottom_tag_style"
+            android:layout_weight="1"/>
+    </RadioGroup>
+
+</LinearLayout>
