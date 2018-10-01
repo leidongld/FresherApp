@@ -1,4 +1,4 @@
-package com.example.leidong.fresher.bean;
+package com.example.leidong.fresher.dbbean;
 
 /**
  * @program: Fresher

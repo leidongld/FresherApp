@@ -1,14 +1,14 @@
-package com.example.leidong.fresher.bean;
+package com.example.leidong.fresher.dbbean;
 
 import java.io.Serializable;
 
 /**
  * @program: Fresher
- * @description: 管理员
+ * @description: 客户
  * @author: Lei Dong
- * @create: 2018-09-23 22:42
+ * @create: 2018-09-23 22:18
  **/
-public class Administrator implements Serializable {
+public class Customer implements Serializable {
     private String id;
 
     private String username;
@@ -23,21 +23,19 @@ public class Administrator implements Serializable {
 
     private String email;
 
-    public Administrator(String username, String password, String name, String phone, String mobile, String email) {
+    private String address;
+
+    private String detail;
+
+    public Customer(String username, String password, String name, String phone, String mobile, String email, String address, String detail) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.phone = phone;
         this.mobile = mobile;
         this.email = email;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.address = address;
+        this.detail = detail;
     }
 
     public String getUsername() {
@@ -54,6 +52,14 @@ public class Administrator implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -88,16 +94,32 @@ public class Administrator implements Serializable {
         this.email = email;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getDetail() {
+        return detail;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
     @Override
     public String toString() {
-        return "Administrator{" +
+        return "Merchant{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
                 ", mobile='" + mobile + '\'' +
                 ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", detail='" + detail + '\'' +
                 '}';
     }
 }

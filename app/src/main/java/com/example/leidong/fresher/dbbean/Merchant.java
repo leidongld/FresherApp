@@ -1,14 +1,15 @@
-package com.example.leidong.fresher.bean;
+package com.example.leidong.fresher.dbbean;
 
 import java.io.Serializable;
 
 /**
  * @program: Fresher
- * @description: 客户
+ * @description: 商户
  * @author: Lei Dong
- * @create: 2018-09-23 22:18
+ * @create: 2018-09-23 22:10
  **/
-public class Customer implements Serializable {
+
+public class Merchant implements Serializable {
     private String id;
 
     private String username;
@@ -27,7 +28,7 @@ public class Customer implements Serializable {
 
     private String detail;
 
-    public Customer(String username, String password, String name, String phone, String mobile, String email, String address, String detail) {
+    public Merchant(String username, String password, String name, String phone, String mobile, String email, String address, String detail) {
         this.username = username;
         this.password = password;
         this.name = name;
