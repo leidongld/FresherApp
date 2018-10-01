@@ -10,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.leidong.fresher.R;
 import com.example.leidong.fresher.adapter.ProductsAdapter;
@@ -41,6 +42,9 @@ public class FruitFragment extends BaseFragment {
 
     @BindView(R.id.recyclerView)
     RecyclerView mFruitsView;
+
+    @BindView(R.id.products_title)
+    TextView mProductsTitle;
 
     List<BannerBean> mBannerList;
 
@@ -78,7 +82,7 @@ public class FruitFragment extends BaseFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        mView = inflater.inflate(R.layout.fragment_fruit, container, false);
+        mView = inflater.inflate(R.layout.fragment_product, container, false);
         ButterKnife.bind(this, mView);
         return mView;
     }
@@ -122,6 +126,8 @@ public class FruitFragment extends BaseFragment {
      * 初始化数据
      */
     private void initDatas() {
+        mProductsTitle.setText("精选水果");
+
         initBannerData();
 
         initProductData();
