@@ -2,6 +2,8 @@ package com.example.leidong.fresher.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,11 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.leidong.fresher.R;
 import com.example.leidong.fresher.dbbean.Product;
+import com.example.leidong.fresher.ui.ProductActivity;
 
 import java.util.List;
 
@@ -63,7 +65,11 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
         viewHolder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "点击了条目" + (i + 1), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, ProductActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("product", productList.get(i));
+                intent.putExtras(bundle);
+                context.startActivity(intent);
             }
         });
     }
