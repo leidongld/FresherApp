@@ -23,6 +23,9 @@
         <activity
             android:name=".ui.ProductActivity"
             android:screenOrientation="portrait"></activity>
+
+        <activity android:name=".ui.BannerActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

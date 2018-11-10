@@ -101,10 +101,10 @@ public class HomeFragment extends BaseFragment {
     }
 
     /**
-     * 初始化
+     * 全部初始化操作
      */
     @RequiresApi(api = Build.VERSION_CODES.M)
-    private void init() {
+    public void init() {
         mFruitFragment = FruitFragment.getInstance();
         mVegetableFragment = VegetableFragment.getInstance();
         mMeatFragment = MeatFragment.getInstance();

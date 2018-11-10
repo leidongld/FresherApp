@@ -7,6 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.leidong.fresher.R;
+import com.example.leidong.fresher.bean.ShoppingCartItemBean;
 import com.example.leidong.fresher.dbbean.Product;
 import com.example.leidong.fresher.utils.GlideImageLoader;
 import com.youth.banner.Banner;
@@ -48,7 +49,9 @@ public class ProductActivity extends BaseActivity {
 
     private List<String> mImageList;
 
-    private Product mProduct;
+    private Product mProduct = null;
+
+    private ShoppingCartItemBean mShoppingCartItemBean = null;
 
     private Intent mIntent;
 
@@ -73,9 +76,24 @@ public class ProductActivity extends BaseActivity {
      * 初始化数据
      */
     private void initDatas() {
-        initProductData();
+        if(null != mProduct) {
+            initProductData();
+        }
+        if(null != mShoppingCartItemBean) {
+            initShoppingcartItemData();
+        }
 
         initBannerData();
+    }
+
+    /**
+     * 初始化购物车条目数据
+     */
+    private void initShoppingcartItemData() {
+        mTitle.setText(mShoppingCartItemBean.getName());
+        mSubTitle.setText(mShoppingCartItemBean.getName());
+        mPrice.setText("￥" + mShoppingCartItemBean.getPrice());
+        mDetail.setText(mShoppingCartItemBean.getDetail());
     }
 
     /**
@@ -122,6 +140,7 @@ public class ProductActivity extends BaseActivity {
     protected void initWidgets() {
         mIntent = getIntent();
         mProduct = (Product) mIntent.getSerializableExtra("product");
+        mShoppingCartItemBean = (ShoppingCartItemBean) mIntent.getSerializableExtra("shoppingcartItem");
     }
 
     @OnClick(R.id.add_to_shopping_cart)

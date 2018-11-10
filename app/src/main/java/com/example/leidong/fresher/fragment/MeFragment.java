@@ -53,5 +53,15 @@ public class MeFragment extends BaseFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        init();
+    }
+
+    /**
+     * 全部初始化操作
+     */
+    @Override
+    public void init() {
+
     }
 }

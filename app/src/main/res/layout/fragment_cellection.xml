@@ -1,12 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
-        android:text="CollectionFragment"
-        android:textSize="40sp"
-        android:gravity="center"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--第一排两张精选图片-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageView
+                android:id="@+id/image1"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image2"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+
+        <!--第二排两张精选图片-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="2">
+
+            <ImageView
+                android:id="@+id/image3"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"/>
+
+            <ImageView
+                android:id="@+id/image4"
+                android:layout_width="match_parent"
+                android:layout_height="90dp"
+                android:layout_margin="1dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"/>
+        </LinearLayout>
+
+        <!--四个ICON-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:weightSum="4">
+            <ImageView
+                android:id="@+id/icon_fruit"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_margin="12dp"
+                android:src="@drawable/icon_fruit"/>
+            <ImageView
+                android:id="@+id/icon_vegetable"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_margin="12dp"
+                android:src="@drawable/icon_vegetable"/>
+            <ImageView
+                android:id="@+id/icon_meat"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_margin="12dp"
+                android:src="@drawable/icon_meat"/>
+            <ImageView
+                android:id="@+id/icon_grain"
+                android:layout_width="match_parent"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:layout_margin="12dp"
+                android:src="@drawable/icon_grain"/>
+        </LinearLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

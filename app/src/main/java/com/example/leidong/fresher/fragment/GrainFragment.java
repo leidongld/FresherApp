@@ -2,6 +2,7 @@ package com.example.leidong.fresher.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,13 +17,16 @@ import com.example.leidong.fresher.R;
 import com.example.leidong.fresher.adapter.ProductsAdapter;
 import com.example.leidong.fresher.bean.BannerBean;
 import com.example.leidong.fresher.dbbean.Product;
+import com.example.leidong.fresher.ui.BannerActivity;
 import com.example.leidong.fresher.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,6 +95,14 @@ public class GrainFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        init();
+    }
+
+    /**
+     * 全部初始化操作
+     */
+    @Override
+    public void init() {
         initDatas();
 
         configBanner();
@@ -120,6 +132,17 @@ public class GrainFragment extends BaseFragment {
         mBanner.setDelayTime(3000);
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.start();
+
+        mBanner.setOnBannerClickListener(new OnBannerClickListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent intent = new Intent(getActivity(), BannerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("banenr", mBannerList.get(position - 1));
+                intent.putExtras(bundle);
+                Objects.requireNonNull(getActivity()).startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -207,10 +230,35 @@ public class GrainFragment extends BaseFragment {
      */
     private void initBannerData() {
         mBannerList = new ArrayList<>();
-        mBannerList.add(new BannerBean("小麦", "https://images.pexels.com/photos/265216/pexels-photo-265216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("燕麦", "https://images.pexels.com/photos/575822/pexels-photo-575822.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("什锦杂粮", "https://images.pexels.com/photos/1306548/pexels-photo-1306548.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("美味面包", "https://images.pexels.com/photos/2434/bread-food-healthy-breakfast.jpg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("咖啡豆", "https://images.pexels.com/photos/296287/pexels-photo-296287.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
+        mBannerList.add(new BannerBean(
+                "小麦",
+                "",
+                "",
+                "https://images.pexels.com/photos/265216/pexels-photo-265216.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "燕麦",
+                "",
+                "",
+                "https://images.pexels.com/photos/575822/pexels-photo-575822.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "什锦杂粮",
+                "",
+                "",
+                "https://images.pexels.com/photos/1306548/pexels-photo-1306548.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "美味面包",
+                "",
+                "",
+                "https://images.pexels.com/photos/2434/bread-food-healthy-breakfast.jpg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "咖啡豆",
+                "",
+                "",
+                "https://images.pexels.com/photos/296287/pexels-photo-296287.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
     }
 }

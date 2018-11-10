@@ -47,9 +47,10 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ProductsAdapter.ViewHolder viewHolder, int i) {
         if (productList.size() > 0) {
-            Glide.with(context).load(productList.get(i).getImagePath()).into(viewHolder.productImage);
-            viewHolder.productName.setText(productList.get(i).getName());
-            viewHolder.productPrice.setText("￥ " + productList.get(i).getPrice());
+            Product product = productList.get(i);
+            Glide.with(context).load(product.getImagePath()).into(viewHolder.productImage);
+            viewHolder.productName.setText(product.getName());
+            viewHolder.productPrice.setText("￥ " + product.getPrice());
 
             clickItem(viewHolder, i);
         }

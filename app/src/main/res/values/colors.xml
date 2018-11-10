@@ -7,8 +7,8 @@
     <color name="colorRed">#F44336</color>
     <color name="colorPink">#FF4081</color>
     <color name="colorPurple">#AB47BC</color>
-    <color name="colorIndigo">#3F51B5</color>
-    <color name="colorBlue">#448AFF</color>
+    <color name="colorIndigo">#3f51b5</color>
+    <color name="colorBlue">#7daeff</color>
     <color name="colorGreen">#00C853</color>
     <color name="colorLime">#EEFF41</color>
     <color name="colorYellow">#FFEE00</color>
@@ -16,5 +16,5 @@
     <color name="colorGray">#9E9E9E</color>
     <color name="colorLightGray">#EEEEEE</color>
     <color name="colorBlack">#111111</color>
-    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>

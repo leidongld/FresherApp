@@ -2,6 +2,7 @@ package com.example.leidong.fresher.fragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,13 +17,16 @@ import com.example.leidong.fresher.R;
 import com.example.leidong.fresher.adapter.ProductsAdapter;
 import com.example.leidong.fresher.bean.BannerBean;
 import com.example.leidong.fresher.dbbean.Product;
+import com.example.leidong.fresher.ui.BannerActivity;
 import com.example.leidong.fresher.utils.GlideImageLoader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
+import com.youth.banner.listener.OnBannerClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -91,6 +95,16 @@ public class VegetableFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        init();
+
+    }
+
+    /**
+     * 全部初始化操作
+     */
+    @Override
+    public void init() {
+
         initDatas();
 
         configBanner();
@@ -120,6 +134,17 @@ public class VegetableFragment extends BaseFragment {
         mBanner.setDelayTime(3000);
         mBanner.setIndicatorGravity(BannerConfig.CENTER);
         mBanner.start();
+
+        mBanner.setOnBannerClickListener(new OnBannerClickListener() {
+            @Override
+            public void OnBannerClick(int position) {
+                Intent intent = new Intent(getActivity(), BannerActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("banenr", mBannerList.get(position - 1));
+                intent.putExtras(bundle);
+                Objects.requireNonNull(getActivity()).startActivity(intent);
+            }
+        });
     }
 
     /**
@@ -216,10 +241,35 @@ public class VegetableFragment extends BaseFragment {
      */
     private void initBannerData() {
         mBannerList = new ArrayList<>();
-        mBannerList.add(new BannerBean("蔬菜沙拉", "https://images.pexels.com/photos/257816/pexels-photo-257816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("葱蒜", "https://images.pexels.com/photos/159250/bulb-closeup-close-up-clove-159250.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("降血压蔬菜", "https://images.pexels.com/photos/1367243/pexels-photo-1367243.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("胡萝卜", "https://images.pexels.com/photos/162670/carrot-juice-juice-carrots-vegetable-juice-162670.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
-        mBannerList.add(new BannerBean("甜椒", "https://images.pexels.com/photos/452773/pexels-photo-452773.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350"));
+        mBannerList.add(new BannerBean(
+                "蔬菜沙拉",
+                "",
+                "",
+                "https://images.pexels.com/photos/257816/pexels-photo-257816.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "葱蒜",
+                "",
+                "",
+                "https://images.pexels.com/photos/159250/bulb-closeup-close-up-clove-159250.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "降血压蔬菜",
+                "",
+                "",
+                "https://images.pexels.com/photos/1367243/pexels-photo-1367243.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "胡萝卜",
+                "",
+                "",
+                "https://images.pexels.com/photos/162670/carrot-juice-juice-carrots-vegetable-juice-162670.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
+        mBannerList.add(new BannerBean(
+                "甜椒",
+                "",
+                "",
+                "https://images.pexels.com/photos/452773/pexels-photo-452773.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=350",
+                ""));
     }
 }
