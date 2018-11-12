@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/splash_image">
+
+    <TextView
+        android:id="@+id/go"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="F r e s h e r"
+        android:textStyle="bold"
+        android:textColor="@color/colorWhite"
+        android:textSize="50sp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="200dp"/>
+</LinearLayout>
