@@ -1,4 +1,4 @@
-package com.example.leidong.ldnet;
+package com.example.leidong.webhero;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.example.leidong.ldnet.test", appContext.getPackageName());
+        assertEquals("com.example.leidong.webhero.test", appContext.getPackageName());
     }
 }
