@@ -1,5 +1,6 @@
 package com.example.leidong.fresher.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import butterknife.OnClick;
 public class SplashActivity extends BaseActivity {
     private static final String TAG = SplashActivity.class.getSimpleName();
 
+    private Context mContext;
+
     @BindView(R.id.go)
     TextView go;
 
@@ -45,7 +48,7 @@ public class SplashActivity extends BaseActivity {
      * 注册管理员
      */
     private void registerAdmin() {
-        boolean isAdminExist = SPToolkit.init().gainBool("isAdminExist");
+        boolean isAdminExist = SPToolkit.init(mContext).gainBool("isAdminExist");
         if (!isAdminExist) {
             Map<String, String> params = new HashMap<>();
             params.put("username", "admin");
@@ -56,7 +59,7 @@ public class SplashActivity extends BaseActivity {
                     .success(new ISuccess() {
                         @Override
                         public void onSuccess(String body) {
-                            SPToolkit.init().putBool("isAdminExist", true);
+                            SPToolkit.init(mContext).putBool("isAdminExist", true);
                         }
                     })
                     .failure(new IFailure() {
@@ -84,7 +87,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void initWidgets() {
-
+        mContext = this;
     }
 
     @OnClick(R.id.go)

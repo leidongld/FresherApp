@@ -1,14 +1,27 @@
 package com.example.leidong.fresher.ui;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.leidong.fresher.R;
+import com.example.leidong.fresher.dbbean.Customer;
+import com.example.leidong.fresher.dbbean.Merchant;
 import com.example.leidong.fresher.utils.AuthenticateUtils;
+import com.example.leidong.webhero.WebConstants;
+import com.example.leidong.webhero.WebHeroClientBuilder;
+import com.example.leidong.webhero.callback.IError;
+import com.example.leidong.webhero.callback.IFailure;
+import com.example.leidong.webhero.callback.ISuccess;
+
+import java.util.UUID;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -18,8 +31,8 @@ import butterknife.OnClick;
  */
 public class AuthenticateActivity extends BaseActivity {
     private static final String TAG = AuthenticateActivity.class.getSimpleName();
+    private Context mContext = this;
 
-    private static final int ADMIN_INDEX = -100;
     private static final int BUYER_INDEX = 1;
     private static final int SELLER_INDEX = 2;
 
@@ -97,11 +110,11 @@ public class AuthenticateActivity extends BaseActivity {
         if (AuthenticateUtils.registerInputLegal(username, password1, password2)
                 && mCheckIndex != 0) {
             if (mCheckIndex == BUYER_INDEX) {
-                buyerRegister(username, password1);
+                customerRegister(username, password1);
             } else if (mCheckIndex == SELLER_INDEX) {
-                sellerRegister(username, password1);
+                merchantRegister(username, password1);
             } else {
-                adminRegister(username, password1);
+
             }
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -124,9 +137,9 @@ public class AuthenticateActivity extends BaseActivity {
      * 管理员注册
      *
      * @param username
-     * @param password1
+     * @param password
      */
-    private void adminRegister(String username, String password1) {
+    private void adminRegister(String username, String password) {
 
     }
 
@@ -134,19 +147,89 @@ public class AuthenticateActivity extends BaseActivity {
      * 卖家注册
      *
      * @param username
-     * @param password1
+     * @param password
      */
-    private void sellerRegister(String username, String password1) {
+    private void merchantRegister(String username, String password) {
+        WebHeroClientBuilder builder = new WebHeroClientBuilder();
 
+        // 填充数据
+        final Merchant merchant = new Merchant();
+        merchant.setId(UUID.randomUUID().toString());
+        merchant.setUsername(username);
+        merchant.setPassword(password);
+
+        // 发起网络请求
+        builder.url(WebConstants.BASE_URL + "/registerMerchant")
+                .params("merchant", merchant)
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(AuthenticateActivity.this, "注册卖家失败", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String message) {
+                        Toast.makeText(AuthenticateActivity.this, "注册卖家错误！\n[respCode] " + code + "\n[respMsg] " + message, Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String body) {
+                        Toast.makeText(AuthenticateActivity.this, "注册买家成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AuthenticateActivity.this, AuthenticateDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("merchant", merchant);
+                        mContext.startActivity(intent, bundle);
+                    }
+                })
+                .build()
+                .post();
     }
 
     /**
      * 买家注册
      *
      * @param username
-     * @param password1
+     * @param password
      */
-    private void buyerRegister(String username, String password1) {
+    private void customerRegister(String username, String password) {
+        WebHeroClientBuilder builder = new WebHeroClientBuilder();
+
+        // 填充数据
+        final Customer customer = new Customer();
+        customer.setId(UUID.randomUUID().toString());
+        customer.setUsername(username);
+        customer.setPassword(password);
+
+        // 发起网络请求
+        builder.url(WebConstants.BASE_URL + "/registerCustomer")
+                .params("customer", customer)
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(mContext, "注册买家失败！", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String message) {
+                        Toast.makeText(mContext, "注册买家错误！\\n[respCode] \" + code + \"\\n[respMsg] \" + message", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String body) {
+                        Toast.makeText(mContext, "注册买家成功！", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("customer", customer);
+                        mContext.startActivity(intent, bundle);
+                    }
+                })
+                .build()
+                .post();
+
     }
 
     /**
@@ -156,6 +239,7 @@ public class AuthenticateActivity extends BaseActivity {
      * @param password1
      */
     private void adminLogin(String username, String password1) {
+
     }
 
     /**

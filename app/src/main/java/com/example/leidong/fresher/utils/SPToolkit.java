@@ -3,8 +3,6 @@ package com.example.leidong.fresher.utils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.leidong.fresher.FresherApplication;
-
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,9 +13,9 @@ public class SPToolkit {
     private static SharedPreferences sharedPreferences;
     private static SharedPreferences.Editor editor;
 
-    private SPToolkit() {
+    private SPToolkit(Context context) {
         if (null == sharedPreferences) {
-            sharedPreferences = FresherApplication.getInstance().getSharedPreferences("fresher", Context.MODE_PRIVATE);
+            sharedPreferences = context.getSharedPreferences("fresher", Context.MODE_PRIVATE);
             editor = sharedPreferences.edit();
         }
     }
@@ -27,8 +25,8 @@ public class SPToolkit {
      *
      * @return
      */
-    public static SPToolkit init() {
-        return new SPToolkit();
+    public static SPToolkit init(Context context) {
+        return new SPToolkit(context);
     }
 
     /**

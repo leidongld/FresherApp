@@ -28,6 +28,9 @@ public class Merchant implements Serializable {
 
     private String detail;
 
+    public Merchant() {
+    }
+
     public Merchant(String username, String password, String name, String phone, String mobile, String email, String address, String detail) {
         this.username = username;
         this.password = password;
