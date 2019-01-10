@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -12,6 +13,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.leidong.fresher.R;
+import com.example.leidong.fresher.dbbean.Administrator;
 import com.example.leidong.fresher.dbbean.Customer;
 import com.example.leidong.fresher.dbbean.Merchant;
 import com.example.leidong.fresher.utils.AuthenticateUtils;
@@ -33,8 +35,8 @@ public class AuthenticateActivity extends BaseActivity {
     private static final String TAG = AuthenticateActivity.class.getSimpleName();
     private Context mContext = this;
 
-    private static final int BUYER_INDEX = 1;
-    private static final int SELLER_INDEX = 2;
+    private static final int CUSTOMER_INDEX = 1;
+    private static final int MERCHANT_INDEX = 2;
 
     @BindView(R.id.username)
     EditText mUsername;
@@ -88,9 +90,9 @@ public class AuthenticateActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.radioButtonBuyer) {
-                    mCheckIndex = BUYER_INDEX;
+                    mCheckIndex = CUSTOMER_INDEX;
                 } else if (checkedId == R.id.radioButtonSeller) {
-                    mCheckIndex = SELLER_INDEX;
+                    mCheckIndex = MERCHANT_INDEX;
                 } else {
                     mCheckIndex = 0;
                 }
@@ -109,12 +111,10 @@ public class AuthenticateActivity extends BaseActivity {
 
         if (AuthenticateUtils.registerInputLegal(username, password1, password2)
                 && mCheckIndex != 0) {
-            if (mCheckIndex == BUYER_INDEX) {
+            if (mCheckIndex == CUSTOMER_INDEX) {
                 customerRegister(username, password1);
-            } else if (mCheckIndex == SELLER_INDEX) {
+            } else if (mCheckIndex == MERCHANT_INDEX) {
                 merchantRegister(username, password1);
-            } else {
-
             }
         } else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -131,16 +131,6 @@ public class AuthenticateActivity extends BaseActivity {
             builder.setNegativeButton("取消", null);
             builder.create().show();
         }
-    }
-
-    /**
-     * 管理员注册
-     *
-     * @param username
-     * @param password
-     */
-    private void adminRegister(String username, String password) {
-
     }
 
     /**
@@ -164,19 +154,23 @@ public class AuthenticateActivity extends BaseActivity {
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
-                        Toast.makeText(AuthenticateActivity.this, "注册卖家失败", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "注册卖家请求失败！");
+                        Toast.makeText(AuthenticateActivity.this, "注册卖家请求失败", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String message) {
-                        Toast.makeText(AuthenticateActivity.this, "注册卖家错误！\n[respCode] " + code + "\n[respMsg] " + message, Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "注册卖家请求错误！");
+                        Toast.makeText(AuthenticateActivity.this, "注册卖家请求错误！\n[respCode] " + code + "\n[respMsg] " + message, Toast.LENGTH_SHORT).show();
                     }
                 })
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String body) {
-                        Toast.makeText(AuthenticateActivity.this, "注册买家成功", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "注册卖家请求成功");
+                        // TODO: 2018/12/30 判断body中的返回码 
+                        Toast.makeText(AuthenticateActivity.this, "注册卖家请求成功", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(AuthenticateActivity.this, AuthenticateDetailActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("merchant", merchant);
@@ -208,19 +202,22 @@ public class AuthenticateActivity extends BaseActivity {
                 .failure(new IFailure() {
                     @Override
                     public void onFailure() {
-                        Toast.makeText(mContext, "注册买家失败！", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "注册买家请求失败！");
+                        Toast.makeText(mContext, "注册买家请求失败！", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .error(new IError() {
                     @Override
                     public void onError(int code, String message) {
-                        Toast.makeText(mContext, "注册买家错误！\\n[respCode] \" + code + \"\\n[respMsg] \" + message", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "注册买家请求错误！");
+                        Toast.makeText(mContext, "注册买家请求错误！\\n[respCode] \" + code + \"\\n[respMsg] \" + message", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .success(new ISuccess() {
                     @Override
                     public void onSuccess(String body) {
-                        Toast.makeText(mContext, "注册买家成功！", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "注册买家请求成功");
+                        // TODO: 2018/12/30 判断body中的返回码 
                         Intent intent = new Intent();
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("customer", customer);
@@ -229,7 +226,6 @@ public class AuthenticateActivity extends BaseActivity {
                 })
                 .build()
                 .post();
-
     }
 
     /**
@@ -239,7 +235,43 @@ public class AuthenticateActivity extends BaseActivity {
      * @param password1
      */
     private void adminLogin(String username, String password1) {
+        WebHeroClientBuilder builder = new WebHeroClientBuilder();
 
+        // 填充数据
+        Administrator administrator = new Administrator();
+        administrator.setUsername(username);
+        administrator.setPassword(password1);
+
+        // 发起网络请求
+        builder.url(WebConstants.BASE_URL + "/adminLogin")
+                .params("administrator", administrator)
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String message) {
+                        Toast.makeText(mContext, "管理员登录请求错误！", Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "管理员登录请求错误！");
+                    }
+                })
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+                        Toast.makeText(mContext, "管理员登录请求失败！", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "管理员登录请求失败！");
+                    }
+                })
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String body) {
+                        Log.d(TAG, "管理员登录请求成功");
+                        // TODO: 2018/12/30 判断body中的返回码
+                        Intent intent = new Intent(AuthenticateActivity.this, MainActivity.class);
+                        // TODO: 2018/12/30 加上id
+                        mContext.startActivity(intent);
+                        finish();
+                    }
+                })
+                .build()
+                .post();
     }
 
     /**
@@ -248,7 +280,44 @@ public class AuthenticateActivity extends BaseActivity {
      * @param username
      * @param password1
      */
-    private void sellerLogin(String username, String password1) {
+    private void merchantLogin(String username, String password1) {
+        WebHeroClientBuilder builder = new WebHeroClientBuilder();
+
+        // 填充数据
+        Merchant merchant = new Merchant();
+        merchant.setUsername(username);
+        merchant.setPassword(password1);
+
+        // 发送请求
+        builder.url(WebConstants.BASE_URL + "/merchantLogin")
+                .params("merchant", merchant)
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String message) {
+                        Log.e(TAG, "卖家登录请求错误!");
+                        Toast.makeText(mContext, "卖家登录请求错误！", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+                        Log.d(TAG, "卖家登录请求失败！");
+                        Toast.makeText(mContext, "卖家登录请求失败！", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String body) {
+                        Log.d(TAG, "卖家登录请求成功！");
+                        // TODO: 2018/12/30 判断body中的返回码 
+                        Intent intent = new Intent(AuthenticateActivity.this, MainActivity.class);
+                        // TODO: 2018/12/30 加上id
+                        mContext.startActivity(intent);
+                        finish();
+                    }
+                })
+                .build()
+                .post();
     }
 
     /**
@@ -257,7 +326,43 @@ public class AuthenticateActivity extends BaseActivity {
      * @param username
      * @param password1
      */
-    private void buyerLogin(String username, String password1) {
+    private void customerLogin(String username, String password1) {
+        WebHeroClientBuilder builder = new WebHeroClientBuilder();
+
+        // 填充参数
+        Customer customer = new Customer();
+        customer.setUsername(username);
+        customer.setPassword(password1);
+
+        builder.url(WebConstants.BASE_URL + "/customerLogin")
+                .params("customer", customer)
+                .error(new IError() {
+                    @Override
+                    public void onError(int code, String message) {
+                        Log.e(TAG, "买家登录请求错误！");
+                        Toast.makeText(mContext, "买家登录请求错误！", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .failure(new IFailure() {
+                    @Override
+                    public void onFailure() {
+                        Log.d(TAG, "买家登录请求失败!");
+                        Toast.makeText(mContext, "买家登录请求失败!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .success(new ISuccess() {
+                    @Override
+                    public void onSuccess(String body) {
+                        Log.d(TAG, "买家登录请求成功！");
+                        // TODO: 2018/12/30 判断body中的返回码
+                        Intent intent = new Intent(AuthenticateActivity.this, MainActivity.class);
+                        // TODO: 2018/12/30 增加id
+                        mContext.startActivity(intent);
+                        finish();
+                    }
+                })
+                .build()
+                .post();
     }
 
     /**
@@ -270,10 +375,10 @@ public class AuthenticateActivity extends BaseActivity {
 
         if (AuthenticateUtils.loginInputLegal(username, password1)
                 && mCheckIndex != 0) {
-            if(mCheckIndex == BUYER_INDEX) {
-                buyerLogin(username, password1);
-            } else if(mCheckIndex == SELLER_INDEX) {
-                sellerLogin(username, password1);
+            if (mCheckIndex == CUSTOMER_INDEX) {
+                customerLogin(username, password1);
+            } else if (mCheckIndex == MERCHANT_INDEX) {
+                merchantLogin(username, password1);
             } else {
                 adminLogin(username, password1);
             }
