@@ -92,7 +92,7 @@ public class SplashActivity extends BaseActivity {
 
     @OnClick(R.id.go)
     void onClickGo() {
-        Intent intent = new Intent(this, AuthenticateActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
         finish();
     }
